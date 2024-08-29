@@ -52,15 +52,12 @@ allow sandbox_xserver_t self:process setsched;
 allow sandbox_xserver_t self:shm create_shm_perms;
 allow sandbox_xserver_t self:tcp_socket create_stream_socket_perms;
 
-fs_getattr_xattr_fs(sandbox_xserver_t)
-allow sandbox_xserver_t sandbox_xserver_tmpfs_t:file map;
-read_files_pattern(sandbox_xserver_t, sysctl_dev_t, sysctl_dev_t0)
-
 manage_dirs_pattern(sandbox_xserver_t, sandbox_file_t, sandbox_file_t)
 manage_files_pattern(sandbox_xserver_t, sandbox_file_t, sandbox_file_t)
 manage_sock_files_pattern(sandbox_xserver_t, sandbox_file_t, sandbox_file_t)
 allow sandbox_xserver_t sandbox_file_t:file map;
 allow sandbox_xserver_t sandbox_file_t:sock_file create_sock_file_perms;
+allow sandbox_xserver_t sandbox_xserver_tmpfs_t:file map;
 
 manage_dirs_pattern(sandbox_xserver_t, sandbox_xserver_tmpfs_t, sandbox_xserver_tmpfs_t)
 manage_files_pattern(sandbox_xserver_t, sandbox_xserver_tmpfs_t, sandbox_xserver_tmpfs_t)
@@ -68,6 +65,9 @@ manage_lnk_files_pattern(sandbox_xserver_t, sandbox_xserver_tmpfs_t, sandbox_xse
 manage_fifo_files_pattern(sandbox_xserver_t, sandbox_xserver_tmpfs_t, sandbox_xserver_tmpfs_t)
 manage_sock_files_pattern(sandbox_xserver_t, sandbox_xserver_tmpfs_t, sandbox_xserver_tmpfs_t)
 fs_tmpfs_filetrans(sandbox_xserver_t, sandbox_xserver_tmpfs_t, { dir file lnk_file sock_file fifo_file })
+
+fs_getattr_xattr_fs(sandbox_xserver_t)
+kernel_read_device_sysctls(sandbox_xserver_t)
 
 kernel_dontaudit_request_load_module(sandbox_xserver_t)
 kernel_read_system_state(sandbox_xserver_t)
